@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=San%20Francisco&display=swap');
+
+body {
+  font-family: 'San Francisco', Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+#chat-wrap {
+  max-width: 500px;
+  margin:  auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 24px;
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+#chat-window {
+  height: 300px;
+  overflow-y: scroll;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#output {
+  margin-bottom: 10px;
+}
+
+#feedback {
+  color: #999;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background-color: #555;
+}
+
+/* Ekstra Apple tarzı özellikler */
+
+body {
+  background-image: linear-gradient(to bottom, #f5f5f5, #eee);
+}
+
+#chat-wrap {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 30px;
+  margin-top: 50px;
+}
+
+h2 {
+  font-size: 36px;
+  text-align: center;
+  color: #333;
+  margin-bottom: 40px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#chat-window {
+  height: 400px;
+  overflow-y: scroll;
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+#sender {
+  font-size: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  width: 25%;
+  padding: 10px;
+  border-radius: 50px;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 8px;
+}
+
+
+#message {
+  font-size: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  width: 75%;
+  height: 30px;
+  padding: 10px;
+  border-radius: 50px;
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 50px;
+}

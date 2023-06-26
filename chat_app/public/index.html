@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.0/socket.io.js" integrity="sha512-
+    +sXUwEYakGznuXubXLO/7LWSAPcm+U3NxMJaSu3S5OcvruAAAzaC50Uh4TW9KWj0hA6vfPAjB7E1uuIXgn9vmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="chat-wrap">
+        <h2>Chat</h2>
+        <div id="chat-window">
+            <div id="output"></div>
+                <div id="feedback"></div>
+    </div>
+    <input type="text" id="sender" placeholder="Ad">
+    <input type="text" id="message" placeholder="Mesaj">
+    <button id="submit">Gönder</button>
+    <script src="chat.js" charset="UTF-8"></script>
+</body>
+</html>
