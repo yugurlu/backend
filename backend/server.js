@@ -2,19 +2,25 @@
 
 var path = require("path")
 var express = require("express")
-var loginControl = require("./app_server/routes/loginRoute")
-
 var app = express();
+var bodyParser = require('body-parser')
 
 app.use("/public", express.static(path.join(__dirname, "public")))
 
-app.use(function(req, res, next){
-    console.log("url...:" + req.url)
-    console.log("time...:" + Date.now())
-    next()  //middleware
-})
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
 
-app.use('/', loginControl)
+app.engine('html', require('ejs').renderFile);
+app.engine('ejs', require('ejs').renderFile);
+app.set("views", __dirname);
+app.set('view engine', 'html');
 
+// app.use(function(req, res, next){
+//     console.log("url: " + req.url)
+//     console.log("time: " + Date.now())
+//     next()  //middleware
+// })
 
-app.listen(8000)
+require('./app_server/routes/routeManager')(app)
+
+app.listen(8080)
