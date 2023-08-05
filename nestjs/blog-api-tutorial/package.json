@@ -1,5 +1,5 @@
 {
-  "name": "nest-jwt-auth",
+  "name": "blog-api-tutorial",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -24,11 +24,9 @@
     "@nestjs/core": "^10.0.0",
     "@nestjs/jwt": "^10.1.0",
     "@nestjs/mongoose": "^10.0.1",
-    "@nestjs/passport": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "bcrypt": "^5.1.0",
     "mongoose": "^7.4.2",
-    "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
   },
