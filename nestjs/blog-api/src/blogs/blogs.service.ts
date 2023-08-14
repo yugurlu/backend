@@ -1,9 +1,10 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Blog, BlogDocument } from './schemas/blog.schema';
 import { Model } from 'mongoose';
 import { BlogDto } from './dto/blog.dto';
 import { User, UserDocument } from 'src/auth/schemas/user.schema';
+
 
 @Injectable()
 export class BlogsService {
@@ -14,13 +15,17 @@ export class BlogsService {
     async createBlog(dto: BlogDto, req: any) {
         const currentUser = await this.userModel.findOne({ email: req.user.email })
 
-        const newBlog = new this.blogModel({
-            title: dto.title,
-            content: dto.content,
-            sharedBy: currentUser.email,
-            userId: currentUser.id
-        })
-        return await newBlog.save()
+        if (currentUser.emailVerification.isVerified) {
+            const newBlog = new this.blogModel({
+                title: dto.title,
+                content: dto.content,
+                sharedBy: currentUser.email,
+                userId: currentUser.id
+            })
+            return await newBlog.save()
+        }
+        else
+            throw new UnauthorizedException("User mail not verified!")
     }
 
     async editBlog(dto: BlogDto, id: string, req: any) {
