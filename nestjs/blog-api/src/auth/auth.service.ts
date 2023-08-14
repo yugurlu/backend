@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { EmailVerificationService } from './email-verification/email-verification.service';
 import { VerifyDto } from './dtos/verify.dto';
 import { AskVerifyDto } from './dtos/ask-verify.dto';
+import { ChangePasswordDto } from './dtos/change-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -74,5 +75,21 @@ export class AuthService {
             await this.userModel.findByIdAndUpdate(user.id, user)
             return await this.emailVerificationService.sendVerificationEmail(askVerifyDto.email, user.emailVerification.token)
         }
+    }
+
+    async changePassword(id: string, req: any, changePasswordDto: ChangePasswordDto) {
+        const user = await this.userModel.findById(id)
+        if (!user)
+            throw new UnauthorizedException("User not found")
+        if (user.email != req.user.email)
+            throw new UnauthorizedException("This acount is not yours")
+        var isMatch = await bcrypt.compare(changePasswordDto.oldPassword, user.password)
+        if (!isMatch)
+            throw new UnauthorizedException("Old password wrong")       
+        isMatch = await bcrypt.compare(changePasswordDto.newPassword, user.password)
+        if (isMatch)
+            throw new UnauthorizedException("Your new password cannot be the same as the old one")
+        
+        return await this.userModel.findByIdAndUpdate(id, { "password": await bcrypt.hash(changePasswordDto.newPassword, 10) }, { new: true })
     }
 }
