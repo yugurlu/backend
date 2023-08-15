@@ -1,4 +1,4 @@
-import { Model, now } from 'mongoose'
+import { Model } from 'mongoose'
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
@@ -9,6 +9,9 @@ import { EmailVerificationService } from './email-verification/email-verificatio
 import { VerifyDto } from './dtos/verify.dto';
 import { AskVerifyDto } from './dtos/ask-verify.dto';
 import { ChangePasswordDto } from './dtos/change-password.dto';
+import { Response } from 'express';
+import ms from 'ms';
+
 
 @Injectable()
 export class AuthService {
@@ -32,14 +35,23 @@ export class AuthService {
             throw new UnauthorizedException("User Already Registered")
     }
 
-    async login(authDto: AuthDto) {
+    async login(authDto: AuthDto, res: Response) {
         const user =  await this.userModel.findOne({ email: authDto.email })
         if (!user)
             throw new UnauthorizedException("Wrong Email")
         const isMatch = await bcrypt.compare(authDto.password, user.password)
         if (!isMatch)
             throw new UnauthorizedException("Wrong Password")
-        return this.createToken(user.email)
+        
+        //SESSION
+        const payload = { email: user.email };
+        const token = this.jwtService.sign(payload)
+        console.log(token)
+        res.cookie('auth_token', token, {
+            httpOnly: true,
+            maxAge: ms("30d"), // 1h
+        })
+        return res.send()
     }
 
     async createToken(email: string) {
