@@ -1,6 +1,5 @@
 import { Controller, Get, UseGuards, Request } from '@nestjs/common';
 import { AppService } from './app.service';
-import { AuthGuard } from '@nestjs/passport';
 import { CookieAuthGuard } from './auth/cookie-auth.guard';
 
 @Controller()

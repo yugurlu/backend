@@ -46,12 +46,13 @@ export class AuthService {
         //SESSION
         const payload = { email: user.email };
         const token = this.jwtService.sign(payload)
-        console.log(token)
+
         res.cookie('auth_token', token, {
             httpOnly: true,
-            maxAge: ms("30d"), // 1h
+            maxAge: ms("30d"),
         })
-        return res.send()
+        console.log(token)
+        return res.end()
     }
 
     async createToken(email: string) {
@@ -89,8 +90,8 @@ export class AuthService {
         }
     }
 
-    async changePassword(id: string, req: any, changePasswordDto: ChangePasswordDto) {
-        const user = await this.userModel.findById(id)
+    async changePassword(req: any, changePasswordDto: ChangePasswordDto) {
+        const user = await this.userModel.findOne({ email: req.user.email })
         if (!user)
             throw new UnauthorizedException("User not found")
         if (user.email != req.user.email)
@@ -102,6 +103,11 @@ export class AuthService {
         if (isMatch)
             throw new UnauthorizedException("Your new password cannot be the same as the old one")
         
-        return await this.userModel.findByIdAndUpdate(id, { "password": await bcrypt.hash(changePasswordDto.newPassword, 10) }, { new: true })
+        return await this.userModel.findByIdAndUpdate(user.id, { "password": await bcrypt.hash(changePasswordDto.newPassword, 10) }, { new: true })
+    }
+
+    async logout(res: Response) {
+        res.clearCookie("auth_token")
+        return res.end()
     }
 }

@@ -1,12 +1,11 @@
-import { Body, Controller, Param, Patch, Post, Put, Request, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Patch, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dtos/auth.dto';
 import { VerifyDto } from './dtos/verify.dto';
 import { AskVerifyDto } from './dtos/ask-verify.dto';
 import { ChangePasswordDto } from './dtos/change-password.dto';
-import { AuthGuard } from '@nestjs/passport';
-import { Response } from 'express';
-
+import { Request, Response } from 'express';
+import { CookieAuthGuard } from './cookie-auth.guard';
 
 
 @Controller("auth")
@@ -23,21 +22,27 @@ export class AuthController {
         return this.authService.login(authDto, res)
     }
 
-    @UseGuards(AuthGuard("jwt"))
+    @UseGuards(CookieAuthGuard)
     @Patch("verify")
     verify(@Body() verifyDto: VerifyDto) {
         return this.authService.verify(verifyDto)
     }
 
-    @UseGuards(AuthGuard("jwt"))
+    @UseGuards(CookieAuthGuard)
     @Post("sendtoken")
     sendToken(@Body() askVerifyDto: AskVerifyDto) {
         return this.authService.sendToken(askVerifyDto)
     }
 
-    @UseGuards(AuthGuard("jwt"))
-    @Put("change-password/:id")
-    changePassword(@Param("id") id: string, @Request() req: any, @Body() changePasswordDto: ChangePasswordDto) {
-        return this.authService.changePassword(id, req, changePasswordDto)
+    @UseGuards(CookieAuthGuard)
+    @Put("change-password")
+    changePassword(@Req() req: Request, @Body() changePasswordDto: ChangePasswordDto) {
+        return this.authService.changePassword(req, changePasswordDto)
+    }
+
+    @UseGuards(CookieAuthGuard)
+    @Delete("logout")
+    logout(@Res() res: Response) {
+        return this.authService.logout(res)
     }
 }
